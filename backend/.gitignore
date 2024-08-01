@@ -1,0 +1,5 @@
+env.py
+.idea
+productslists.db
+__pycache__/
+venv
