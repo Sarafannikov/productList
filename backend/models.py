@@ -9,3 +9,5 @@ class Product(BaseModel):
     checked: Optional[bool] = False
 
 
+class testId(BaseModel):
+    product_id: int

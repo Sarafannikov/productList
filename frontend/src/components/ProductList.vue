@@ -22,6 +22,7 @@ async function getProducts() {
 }
 
 async function addProduct() {
+  if (!quantity.value) quantity.value = 1;
     const response = await fetch(
         "http://127.0.0.1:8000/addProduct",
         {
@@ -38,6 +39,7 @@ async function addProduct() {
     );
     products.value = await getProducts();
 }
+
 
 async function deleteAll() {
     const response = await fetch(
@@ -56,29 +58,53 @@ async function deleteAll() {
     products.value = await getProducts();
 }
 
+async function deleteProduct(product_id) {
+  console.log(product_id)
+  const response = await fetch(
+      "http://127.0.0.1:8000/deleteProduct",
+      {
+        method: "POST",
+        headers: {
+          //Accept: 'application/json',
+          "Content-Type": "application/json",
+          //"Access-Control-Allow-Origin": "http://0.0.0.0"
+        },
+        credentials: "include",
+        mode: "cors",
+        body: JSON.stringify({ product_id: product_id })
+      }
+  );
+  products.value = await getProducts();
+}
+
 products.value = await getProducts();
 </script>
 
 <template>
-  <div class="flexBox">
-      <div class="leftBlock">
-        <form @submit.prevent class="formBlock">
-            <input v-model="name" type="text" placeholder="name" required class="glow-on-hover">
-            <input v-model="quantity" placeholder="quantity" type="text" class="glow-on-hover">
-            <button @click="addProduct" class="glow-on-hover">Добавить в список продуктов</button>
-          <button @click="deleteAll" class="glow-on-hover">Удалить все</button>
 
-          </form>
-      </div>
-        <div class="blocktext">
-          <div v-for="item in products" >
 
-            <p class="ptext">{{ item.name }}  {{ item.quantity }} шт.</p>
 
-          </div>
+        <div class="flexBox">
+
+          <div class="leftBlock">
+              <form @submit.prevent class="formBlock">
+                  <input v-model="name" type="text" placeholder="name" required class="glow-on-hover">
+                  <input v-model="quantity" placeholder="quantity" type="text" class="glow-on-hover">
+                  <button @click="addProduct" class="glow-on-hover">Добавить в список продуктов</button>
+                <button @click="deleteAll" class="glow-on-hover">Удалить все</button>
+
+              </form>
+            </div>
+
+              <div class="blocktext">
+                <div v-for="item in products" >
+
+                  <button class="ptext" @click="deleteProduct(item.id)" >{{ item.name }}  {{ item.quantity }} шт.</button>
+                </div>
+              </div>
         </div>
 
-  </div>
+
 
 
 
@@ -86,20 +112,23 @@ products.value = await getProducts();
 <style>
   .blocktext {
     margin: auto;
-    width: 20%
+    width: 100%;
+
   }
   .formBlock {
     padding-bottom: 15px;
+    width: 20%;
+
   }
   .ptext {
     font-size: 24px;
   }
   .flexBox {
     display: flex;
+
   }
   .leftBlock {
     margin: auto;
-    width: 20%;
   }
 .glow-on-hover {
     width: 220px;
