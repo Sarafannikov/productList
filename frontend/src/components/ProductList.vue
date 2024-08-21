@@ -5,7 +5,7 @@ const name = defineModel("name")
 const quantity = defineModel("quantity")
 async function getProducts() {
     const response = await fetch(
-        "http://127.0.0.1:8000/getProducts",
+        "http://127.0.0.1:8080/getProducts",
         {
             method: "POST",
             headers: {
@@ -24,7 +24,7 @@ async function getProducts() {
 async function addProduct() {
   if (!quantity.value) quantity.value = 1;
     const response = await fetch(
-        "http://127.0.0.1:8000/addProduct",
+        "http://127.0.0.1:8080/addProduct",
         {
             method: "POST",
             headers: {
@@ -43,7 +43,7 @@ async function addProduct() {
 
 async function deleteAll() {
     const response = await fetch(
-        "http://127.0.0.1:8000/deleteAll",
+        "http://127.0.0.1:8080/deleteAll",
         {
             method: "POST",
             headers: {
@@ -61,7 +61,7 @@ async function deleteAll() {
 async function deleteProduct(product_id) {
   console.log(product_id)
   const response = await fetch(
-      "http://127.0.0.1:8000/deleteProduct",
+      "http://127.0.0.1:8080/deleteProduct",
       {
         method: "POST",
         headers: {
